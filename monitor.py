@@ -72,6 +72,11 @@ def main():
         print('Fehler: PROWL_API_KEY ist nicht gesetzt.')
         exit(1)
 
+    # Temporär: Sende eine einfache Testbenachrichtigung über Prowl
+    event = 'Testnachricht'
+    description = 'Dies ist eine einfache Testnachricht, um Prowl zu überprüfen.'
+    send_prowl_notification(event, description)
+
     # Temporär: Sende Benachrichtigung mit aktueller Anzahl zur Überprüfung
     event = 'Überprüfung der Prowl-Benachrichtigung'
     description = f'Aktuell gibt es {current_count} Wohnungen auf der Website.'
