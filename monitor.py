@@ -67,28 +67,15 @@ def main():
     if current_count is None:
         return
 
-    # Überprüfen, ob der API-Schlüssel gesetzt ist
-    if not API_KEY:
-        print('Fehler: PROWL_API_KEY ist nicht gesetzt.')
-        exit(1)
-
-    # Temporär: Sende eine einfache Testbenachrichtigung über Prowl
-    event = 'Testnachricht'
-    description = 'Dies ist eine einfache Testnachricht, um Prowl zu überprüfen.'
-    send_prowl_notification(event, description)
-
-    # Temporär: Sende Benachrichtigung mit aktueller Anzahl zur Überprüfung
-    event = 'Überprüfung der Prowl-Benachrichtigung'
-    description = f'Aktuell gibt es {current_count} Wohnungen auf der Website.'
-    send_prowl_notification(event, description)
-
-    # Entferne diesen Block nach der Überprüfung
-
     previous_count = read_previous_count()
+
     if previous_count is None:
-        # Erste Ausführung, speichere die aktuelle Anzahl
+        # Erste Ausführung, sende Benachrichtigung
+        event = 'Erste Ausführung'
+        description = f'Aktuell gibt es {current_count} Wohnungen.'
+        send_prowl_notification(event, description)
         write_current_count(current_count)
-        print('Erste Ausführung, vorherige Anzahl nicht vorhanden.')
+        print('Erste Ausführung, Benachrichtigung gesendet.')
         return
 
     if current_count != previous_count:
@@ -103,6 +90,7 @@ def main():
         write_current_count(current_count)
     else:
         print('Keine Änderung in der Anzahl der Wohnungen.')
+
 
 
 if __name__ == "__main__":
