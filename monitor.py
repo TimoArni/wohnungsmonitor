@@ -5,7 +5,7 @@ import os
 # URL der Website
 URL = 'https://www.saga.hamburg/immobiliensuche?Kategorie=APARTMENT'
 
-# Prowl API-Schlüssel (aus der E-Mail-Adresse extrahiert)
+# Prowl API-Schlüssel aus Umgebungsvariable
 API_KEY = os.environ.get('PROWL_API_KEY')
 PROWL_URL = 'https://api.prowlapp.com/publicapi/add'
 
@@ -66,6 +66,16 @@ def main():
     current_count = fetch_current_count()
     if current_count is None:
         return
+
+    # Überprüfen, ob der API-Schlüssel gesetzt ist
+    if not API_KEY:
+        print('Fehler: PROWL_API_KEY ist nicht gesetzt.')
+        exit(1)
+
+    # Temporär: Sende Benachrichtigung mit aktueller Anzahl zur Überprüfung
+    event = 'Überprüfung der Prowl-Benachrichtigung'
+    description = f'Aktuell gibt es {current_count} Wohnungen auf der Website.'
+    send_prowl_notification(event, description)
 
     previous_count = read_previous_count()
     if previous_count is None:
