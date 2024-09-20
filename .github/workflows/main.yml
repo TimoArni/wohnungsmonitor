@@ -10,7 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # Notwendig, um Commits zu pushen
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -21,21 +25,21 @@ jobs:
         run: |
           pip install requests
 
-      - name: Restore previous count from cache
-        uses: actions/cache@v3
-        id: cache-previous-count
-        with:
-          path: previous_count.txt
-          key: previous-count
-
       - name: Run script
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}
         run: |
           python monitor.py
 
-      - name: Update cache
-        uses: actions/cache@v3
-        with:
-          path: previous_count.txt
-          key: previous-count
+      - name: Commit and push changes
+        if: success()
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git add previous_count.txt
+            git commit -m 'Update previous_count.txt'
+            git push
+          else
+            echo "Keine Änderungen zum Committen"
+          fi
