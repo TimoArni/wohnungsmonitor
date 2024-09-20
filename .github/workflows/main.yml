@@ -22,12 +22,12 @@ jobs:
           pip install requests
 
       - name: Download previous count
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: previous_count
           path: .
-          fail-on-missing: false  # Aktualisiert
-
+          if-no-files-found: ignore  # Verwende 'if-no-files-found'
+          
       - name: Run script
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}
