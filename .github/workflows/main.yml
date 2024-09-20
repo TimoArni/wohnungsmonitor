@@ -1,0 +1,39 @@
+name: Run Python script every 15 minutes
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Download previous count
+        uses: actions/download-artifact@v3
+        with:
+          name: previous_count
+          path: .
+
+      - name: Run script
+        env:
+          PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}
+        run: |
+          python monitor.py
+
+      - name: Upload updated count
+        uses: actions/upload-artifact@v3
+        with:
+          name: previous_count
+          path: previous_count.txt
