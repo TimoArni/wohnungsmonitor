@@ -82,6 +82,8 @@ def main():
     description = f'Aktuell gibt es {current_count} Wohnungen auf der Website.'
     send_prowl_notification(event, description)
 
+    # Entferne diesen Block nach der Überprüfung
+
     previous_count = read_previous_count()
     if previous_count is None:
         # Erste Ausführung, speichere die aktuelle Anzahl
@@ -101,6 +103,7 @@ def main():
         write_current_count(current_count)
     else:
         print('Keine Änderung in der Anzahl der Wohnungen.')
+
 
 if __name__ == "__main__":
     main()
