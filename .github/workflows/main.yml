@@ -21,21 +21,21 @@ jobs:
         run: |
           pip install requests
 
-      - name: Download previous count
-        uses: actions/download-artifact@v2
+      - name: Restore previous count from cache
+        uses: actions/cache@v3
+        id: cache-previous-count
         with:
-          name: previous_count
-          path: .
-          if-no-files-found: ignore  # Verwende 'if-no-files-found'
-          
+          path: previous_count.txt
+          key: previous-count
+
       - name: Run script
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}
         run: |
           python monitor.py
 
-      - name: Upload updated count
-        uses: actions/upload-artifact@v3
+      - name: Update cache
+        uses: actions/cache@v3
         with:
-          name: previous_count
           path: previous_count.txt
+          key: previous-count
