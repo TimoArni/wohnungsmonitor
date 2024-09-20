@@ -44,6 +44,7 @@ def read_previous_count():
 def write_current_count(count):
     with open(COUNT_FILE, 'w') as f:
         f.write(str(count))
+    print(f'Datei {COUNT_FILE} wurde aktualisiert.')
 
 def send_prowl_notification(event, description):
     data = {
