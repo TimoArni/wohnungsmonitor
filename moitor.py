@@ -39,7 +39,7 @@ def read_previous_count():
             except ValueError:
                 return None
     else:
-        return None
+        return None  # Datei existiert nicht
 
 def write_current_count(count):
     with open(COUNT_FILE, 'w') as f:
