@@ -1,4 +1,4 @@
-name: Immobilien Scraper
+name: SagaCron
 
 on:
   schedule:
@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4
-      - name: Run Scraper
+      - name: Run SagaCron
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariablen
         run: |
