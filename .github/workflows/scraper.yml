@@ -18,18 +18,20 @@ jobs:
         run: |
           pip install requests beautifulsoup4
       - name: Download previous results
-        run: |
-          if [ -f immobilien_count.json ]; then
-            echo "JSON file found"
-          else
-            echo '{"count": null}' > immobilien_count.json  # Fallback, falls kein Artefakt gefunden wurde
+        uses: actions/download-artifact@v4  # Aktualisiert auf v4
+        with:
+          name: immobilien-count
+          path: ./  # Speicherort der JSON-Datei
       - name: Run Scraper
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariable
         run: |
+          if [ ! -f immobilien_count.json ]; then
+            echo '{"count": null}' > immobilien_count.json  # Fallback, falls kein Artefakt gefunden wurde
+          fi
           python monitor.py
       - name: Upload results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4  # Aktualisiert auf v4
         with:
           name: immobilien-count
           path: immobilien_count.json
