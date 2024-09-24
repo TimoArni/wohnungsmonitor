@@ -58,11 +58,11 @@ def check_for_changes():
             # Überprüfe, ob sich die Anzahl erhöht oder verringert hat
             if last_count is not None:
                 if current_count > last_count:
-                    change_message = f"Die Anzahl der Wohnungen hat sich ERHÖHT: {current_count} (+{current_count - last_count})."
+                    change_message = f"Die Anzahl der verfügbaren Wohnungen hat sich erhöht! Es sind jetzt {current_count} Wohnungen verfügbar (+{current_count - last_count})."
                 else:
-                    change_message = f"Die Anzahl der Wohnungen hat sich VERRINGERT: {current_count} (-{last_count - current_count})."
+                    change_message = f"Die Anzahl der verfügbaren Wohnungen hat sich verringert! Es sind jetzt {current_count} Wohnungen verfügbar (-{last_count - current_count})."
             else:
-                change_message = f"Die Anzahl der Wohnungen beträgt jetzt: {current_count}."
+                change_message = f"Die Anzahl der Wohnungen beträgt jetzt {current_count}."
 
             send_push_notification(change_message)
 
