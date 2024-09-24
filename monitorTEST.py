@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
-import os  # Umgebungsvariablen nutzen
+import os
 
 # Prowl API Key aus Umgebungsvariablen laden
 API_KEY = os.getenv("PROWL_API_KEY")
@@ -45,18 +45,22 @@ def get_immobilien_count():
 
 # Vergleich mit vorheriger Anzahl
 def check_for_changes(test_mode=False):
+    # Versuche, die JSON-Datei zu öffnen
     try:
         with open("immobilien_count.json", "r") as f:
             last_count = json.load(f).get("count")
     except FileNotFoundError:
         last_count = None
 
+    # Hole die aktuelle Anzahl der Immobilien
     current_count = get_immobilien_count()
 
     if current_count is not None:
+        # Überprüfe, ob sich die Anzahl geändert hat oder ob der Testmodus aktiviert ist
         if test_mode or last_count is None or current_count != last_count:
             message = f"Die Anzahl der verfügbaren Wohnungen hat sich geändert: {current_count} Ergebnisse."
             send_push_notification(message)
+            # Speichere die neue Anzahl in der JSON-Datei
             with open("immobilien_count.json", "w") as f:
                 json.dump({"count": current_count}, f)
         else:
