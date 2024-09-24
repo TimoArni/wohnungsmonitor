@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}  # Erforderlich zum Pushen von Commits
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -17,27 +19,15 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4
-      - name: Download previous results (optional)
-        id: download_artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: immobilien-count
-          path: ./  # Speicherort der JSON-Datei
-        continue-on-error: true  # Setzt den Schritt fort, auch wenn kein Artifact vorhanden ist
-      - name: Check if JSON exists, create if not
-        run: |
-          if [ ! -f immobilien_count.json ]; then
-            echo "JSON file not found, creating a new one."
-            echo '{"count": null}' > immobilien_count.json
-          else
-            echo "JSON file found."
       - name: Run Scraper
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariable
         run: |
-          python monitor.py
-      - name: Upload results
-        uses: actions/upload-artifact@v4
-        with:
-          name: immobilien-count
-          path: immobilien_count.json
+          python monitorTEST.py
+      - name: Commit and Push changes if any
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add immobilien_count.json
+          git commit -m "Update immobilien_count.json with latest count" || echo "No changes to commit"
+          git push
