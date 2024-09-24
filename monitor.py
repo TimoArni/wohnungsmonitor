@@ -17,7 +17,7 @@ headers = {
 
 # Funktion zum Versenden der Push-Nachricht
 def send_push_notification(message):
-    prowl_url = f"https://api.prowlapp.com/publicapi/add?apikey={API_KEY}&application=SagaWebsite&event=Anzahl%20Verändert&description={message}"
+    prowl_url = f"https://api.prowlapp.com/publicapi/add?apikey={API_KEY}&application=Wohnungsmonitor&event=Anzahl%20Verändert&description={message}"
     response = requests.get(prowl_url)
     
     # Test-Output, um sicherzustellen, dass der Request gesendet wurde
@@ -55,8 +55,17 @@ def check_for_changes():
     if current_count is not None:
         # Überprüfe, ob sich die Anzahl geändert hat
         if last_count is None or current_count != last_count:
-            message = f"Die Anzahl der verfügbaren Saga Wohnungen hat sich geändert: {current_count} Ergebnisse."
-            send_push_notification(message)
+            # Überprüfe, ob sich die Anzahl erhöht oder verringert hat
+            if last_count is not None:
+                if current_count > last_count:
+                    change_message = f"Die Anzahl der Wohnungen hat sich ERHÖHT: {current_count} (+{current_count - last_count})."
+                else:
+                    change_message = f"Die Anzahl der Wohnungen hat sich VERRINGERT: {current_count} (-{last_count - current_count})."
+            else:
+                change_message = f"Die Anzahl der Wohnungen beträgt jetzt: {current_count}."
+
+            send_push_notification(change_message)
+
             # Speichere die neue Anzahl in der JSON-Datei
             with open("immo_count.json", "w") as f:
                 json.dump({"count": current_count}, f)
