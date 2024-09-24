@@ -25,7 +25,7 @@
     Gehe zu **Settings** > **Secrets and variables** > **Actions** und füge einen neuen Secret `PROWL_API_KEY` hinzu.
 
 3. **JSON-Datei erstellen**:
-    Erstelle eine Datei `immobilien_count.json` mit folgendem Inhalt:
+    Erstelle eine Datei `immo_count.json` mit folgendem Inhalt:
     ```json
     {
       "count": null
@@ -34,7 +34,7 @@
 
 ## Funktionsweise
 - Das Skript wird über GitHub Actions automatisch alle 5 Minuten ausgeführt (06:00 bis 20:00 Uhr).
-- Es prüft die Anzahl der Wohnungen und speichert diese in der `immobilien_count.json`.
+- Es prüft die Anzahl der Wohnungen und speichert diese in der `immo_count.json`.
 - Änderungen der Anzahl lösen eine Push-Benachrichtigung aus.
 
 ## Workflow
