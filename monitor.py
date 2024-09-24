@@ -44,7 +44,7 @@ def get_immobilien_count():
 def check_for_changes():
     # Versuche, die JSON-Datei zu öffnen
     try:
-        with open("immobilien_count.json", "r") as f:
+        with open("immo_count.json", "r") as f:
             last_count = json.load(f).get("count")
     except FileNotFoundError:
         last_count = None
@@ -58,7 +58,7 @@ def check_for_changes():
             message = f"Die Anzahl der verfügbaren Wohnungen hat sich geändert: {current_count} Ergebnisse."
             send_push_notification(message)
             # Speichere die neue Anzahl in der JSON-Datei
-            with open("immobilien_count.json", "w") as f:
+            with open("immo_count.json", "w") as f:
                 json.dump({"count": current_count}, f)
         else:
             print(f"Keine Änderung der Ergebnisse: {current_count} Ergebnisse.")
