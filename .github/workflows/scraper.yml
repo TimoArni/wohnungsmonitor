@@ -23,7 +23,7 @@ jobs:
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariable
         run: |
-          python monitor.py
+          python monitorTEST.py
       - name: Commit and Push changes if any
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
