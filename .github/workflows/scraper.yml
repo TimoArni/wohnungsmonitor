@@ -31,6 +31,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add immobilien_count.json
-          git commit -m "Update immobilien_count.json with latest count" || echo "No changes to commit"
+          git add immo_count.json
+          git commit -m "Update immo_count.json with latest count" || echo "No changes to commit"
           git push
