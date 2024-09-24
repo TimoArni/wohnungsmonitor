@@ -21,4 +21,4 @@ jobs:
         env:
           PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret referenzieren
         run: |
-          python monitor.py
+          python monitorTEST.py
