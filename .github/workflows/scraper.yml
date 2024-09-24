@@ -3,6 +3,7 @@ name: Immobilien Scraper
 on:
   schedule:
     - cron: "*/15 * * * *"  # Alle 15 Minuten
+  workflow_dispatch:  # Ermöglicht manuelles Ausführen
 
 jobs:
   scrape:
