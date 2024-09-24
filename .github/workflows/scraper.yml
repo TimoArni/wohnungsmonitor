@@ -1,7 +1,7 @@
 name: Immobilien Scraper
 
 on:
-schedule:
+  schedule:
     # Alle 5 Minuten, aber nur zwischen 06:00 und 20:00 Uhr
     - cron: "*/5 6-19 * * *"  # Alle 5 Minuten von 06:00 bis 19:59
   workflow_dispatch:  # Ermöglicht manuelles Ausführen
@@ -22,9 +22,9 @@ jobs:
           pip install requests beautifulsoup4
       - name: Run Scraper
         env:
-          PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariable
+          PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariablen
         run: |
-          python monitor.py
+          python monitorTEST.py
       - name: Commit and Push changes if any
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
