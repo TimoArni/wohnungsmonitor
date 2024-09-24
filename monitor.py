@@ -2,9 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import json
+import os  # Umgebungsvariablen nutzen
 
-# Prowl API Key
-API_KEY = "226220f80ec27cff0e98467c8cf496538f6ae692"
+# Prowl API Key aus Umgebungsvariablen laden
+API_KEY = os.getenv("PROWL_API_KEY")
 
 # URL der Webseite
 url = "https://www.saga.hamburg/immobiliensuche?Kategorie=APARTMENT"
