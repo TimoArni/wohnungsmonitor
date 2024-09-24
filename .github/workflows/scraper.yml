@@ -1,8 +1,8 @@
-name: SagaCron
+name: Immobilien Scraper
 
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Alle 5 Minuten
+    - cron: "*/15 * * * *"  # Alle 15 Minuten
   workflow_dispatch:  # Ermöglicht manuelles Ausführen
 
 jobs:
@@ -17,8 +17,19 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests beautifulsoup4
-      - name: Run SagaCRON
-        env:
-          PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret referenzieren
+      - name: Download previous results
         run: |
-          python monitorTEST.py
+          if [ -f immobilien_count.json ]; then
+            echo "JSON file found"
+          else
+            echo '{"count": null}' > immobilien_count.json  # Fallback, falls kein Artefakt gefunden wurde
+      - name: Run Scraper
+        env:
+          PROWL_API_KEY: ${{ secrets.PROWL_API_KEY }}  # GitHub Secret als Umgebungsvariable
+        run: |
+          python monitor.py
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: immobilien-count
+          path: immobilien_count.json
