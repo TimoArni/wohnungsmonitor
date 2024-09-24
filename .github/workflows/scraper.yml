@@ -1,8 +1,9 @@
 name: Immobilien Scraper
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"  # Alle 5 Minuten
+schedule:
+    # Alle 5 Minuten, aber nur zwischen 06:00 und 20:00 Uhr
+    - cron: "*/5 6-19 * * *"  # Alle 5 Minuten von 06:00 bis 19:59
   workflow_dispatch:  # Ermöglicht manuelles Ausführen
 
 jobs:
