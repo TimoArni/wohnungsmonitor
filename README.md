@@ -17,7 +17,7 @@
 
 1. **Clone Repository**:
     ```bash
-    git clone https://github.com/DEIN-BENUTZERNAME/wohnungsmonitor.git
+    git clone https://github.com/TimoArni/wohnungsmonitor
     cd wohnungsmonitor
     ```
 
